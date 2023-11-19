@@ -11,7 +11,7 @@ public class MySQLConnection {
 
     String unicode = "?useUnicode=yes&characterEncoding=UTF-8";
 
-    private String url = "jdbc:mysql://localhost:3306/odesydb";
+    private String url = "jdbc:mysql://localhost:3306/tpmvc";
     private String username = "root";
     private String password = "root";
 
@@ -53,7 +53,4 @@ public class MySQLConnection {
         }
         return connection;
     }
-
-
-
 }

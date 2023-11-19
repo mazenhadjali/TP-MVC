@@ -5,6 +5,7 @@ import controller.PersonControllerImpl;
 import model.Person;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -19,6 +20,11 @@ public class BaseV extends JFrame {
     private JLabel idL = new JLabel("Id");
     private JLabel nomL = new JLabel("Nom");
     private JTextField idT = new JTextField();
+
+    {
+        idT.setEditable(false); // Make the id field non-editable
+    }
+
     private JTextField nomT = new JTextField();
 
     private JButton ajouterBtn = new JButton("Ajouter");
@@ -27,7 +33,12 @@ public class BaseV extends JFrame {
     private JButton consulterBtn = new JButton("Consulter");
 
     private String entete[] = {"Id", "Nom"};
-    private DefaultTableModel model = new DefaultTableModel(entete, 0);
+    private DefaultTableModel model = new DefaultTableModel(entete, 0) {
+        @Override
+        public boolean isCellEditable(int row, int column) {
+            return false; // Make all cells non-editable
+        }
+    };
     private JTable tab = new JTable(model);
     private JScrollPane sp = new JScrollPane(tab);
 
@@ -54,6 +65,12 @@ public class BaseV extends JFrame {
         c.add("North", pNorth);
         c.add("Center", sp);
         c.add("South", pSouth);
+
+        //  center the content of the "Id" column
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(JLabel.CENTER);
+        tab.getColumnModel().getColumn(0).setCellRenderer(centerRenderer);
+
 
         // Add controller calls
         populateTable();
@@ -87,7 +104,7 @@ public class BaseV extends JFrame {
 
     private void addPerson() {
         String nom = nomT.getText();
-        Person newPerson = new Person(0, nom); // Assuming 0 as a default id, you may adjust accordingly
+        Person newPerson = new Person(nom); // Assuming 0 as a default id, you may adjust accordingly
         Person createdPerson = personController.createPerson(newPerson);
         if (createdPerson != null) {
             JOptionPane.showMessageDialog(this, "Person added successfully");

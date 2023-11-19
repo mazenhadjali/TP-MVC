@@ -4,6 +4,10 @@ public class Person {
     private int id;
     private String nom;
 
+    public Person( String nom) {
+        this.nom = nom;
+    }
+
     public Person(int id, String nom) {
         this.id = id;
         this.nom = nom;
